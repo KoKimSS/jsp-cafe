@@ -37,10 +37,10 @@ jobs:
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
         scp -o StrictHostKeyChecking=no -i private_key myapp.tar ${USER}@${HOST}:~/
         ssh -o StrictHostKeyChecking=no -i private_key ${USER}@${HOST} '
-          docker load < myapp.tar
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 8080:8080 myapp:latest
+          sudo docker load < myapp.tar
+          sudo docker stop myapp || true
+          sudo docker rm myapp || true
+          sudo docker run --add-host host.docker.internal:host-gateway -d --name myapp -p 8080:8080 myapp:latest
         '
 
     - name: Clean up
